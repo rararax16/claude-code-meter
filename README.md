@@ -1,13 +1,32 @@
-# ClaudeCodeMeter
+<p align="center">
+  <img src="docs/icon.png" width="160" alt="Claude Code Meter">
+</p>
 
-Mac のメニューバーで **Claude Code の使用量**（5時間セッションの消費率・週間消費率）を一目で確認できる小さなアプリ。
+<h1 align="center">Claude Code Meter</h1>
+
+<p align="center">
+  Mac のメニューバーで <strong>Claude Code の使用量</strong>（5時間セッション / 週間）を一目で確認できる小さなアプリ。
+</p>
+
+## スクリーンショット
+
+<table>
+  <tr>
+    <th>メニューバー</th>
+    <th>クリックで詳細</th>
+  </tr>
+  <tr>
+    <td><img src="docs/menubar.png" alt="menubar icon"></td>
+    <td><img src="docs/popover.png" alt="popover"></td>
+  </tr>
+</table>
 
 ## できること
 
-- メニューバーに `🌀 42%` のように現在のセッション使用率を表示
+- メニューバーにリングメーター + 使用率の数字を表示 (AirPods バッテリー風)
 - クリックすると、5時間セッションと週間（7日）使用量・$ コスト・残り時間を表示
-- プラン（Pro / Max 5x / Max 20x / Custom）を選んで上限を設定
-- 30秒ごとに自動更新
+- プラン（Pro / Max 5x / Max 20x / Claude Team / Custom）を選んで上限を設定
+- 1分ごとに自動更新（10秒〜15分から変更可能）
 
 ## できないこと（v1 の限界）
 
