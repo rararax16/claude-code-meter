@@ -70,12 +70,27 @@ Pro/Max の上限は Anthropic サーバー側で 3つ全部を合算した値�
 
 ## インストール（配布物から）
 
-1. [Releases](#) から `ClaudeCodeMeter-x.y.z.zip` をダウンロード
-2. ダブルクリックで展開し、`ClaudeCodeMeter.app` を `/Applications` にドラッグ
+1. [Releases](https://github.com/rararax16/claude-code-meter/releases/latest) から `Claude-Code-Meter-x.y.z.zip` をダウンロード
+2. ダブルクリックで展開し、`Claude Code Meter.app` を `/Applications` にドラッグ
 3. 初回起動時:
    - 「開発元を確認できないため開けません」と出る場合 → **システム設定 > プライバシーとセキュリティ** で「このまま開く」をクリック
    - 二度目以降は普通に開けます
-4. メニューバー右側に `🌀 0%` のようなアイコンが出れば成功
+4. メニューバー右側にリングメーターのアイコンが出れば成功
+
+### Mac 起動時に自動起動するには
+**システム設定 > 一般 > ログイン項目** で `Claude Code Meter` を追加。
+
+## アンインストール
+
+1. メニューバーのアイコンをクリック → **終了** で常駐解除
+2. `/Applications/Claude Code Meter.app` をゴミ箱へ
+3. (任意) 設定値をきれいに消したい場合はターミナルで:
+   ```sh
+   defaults delete dev.local.claudecodemeter
+   ```
+4. (任意) ログイン項目に登録していた場合は **システム設定 > 一般 > ログイン項目** から外す
+
+このアプリは上記以外のファイル (キャッシュ・サポートディレクトリ等) を一切作りません。`~/.claude/` 配下のデータは **読み取り専用** なので、アンインストールしても Claude Code 本体には影響しません。
 
 ## 開発・自前ビルド
 
