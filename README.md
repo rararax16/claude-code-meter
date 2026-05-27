@@ -70,7 +70,8 @@ Pro/Max の上限は Anthropic サーバー側で 3つ全部を合算した値�
 
 ## インストール（配布物から）
 
-1. [Releases](https://github.com/rararax16/claude-code-meter/releases/latest) から `Claude-Code-Meter-x.y.z.zip` をダウンロード
+1. [Releases](https://github.com/rararax16/claude-code-meter/releases/latest) ページを開き、**Assets** セクションの `Claude-Code-Meter-x.y.z.zip` をダウンロード
+   - ⚠️ 「Source code (zip)」の方は git のソースコードだけで、アプリ本体は入っていません
 2. ダブルクリックで展開し、`Claude Code Meter.app` を `/Applications` にドラッグ
 3. 初回起動時:
    - 「開発元を確認できないため開けません」と出る場合 → **システム設定 > プライバシーとセキュリティ** で「このまま開く」をクリック
