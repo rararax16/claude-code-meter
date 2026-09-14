@@ -34,9 +34,11 @@ struct MenuBarLabelView: View {
     private var currentPercent: Double {
         switch settings.displayMode {
         case .sessionPercent:
-            return usage.sessionPercent(limit: settings.sessionLimitUSD)
+            return usage.sessionPercent(limit: settings.sessionLimitUSD,
+                                        cacheReadWeight: settings.cacheReadWeight)
         case .weeklyPercent:
-            return usage.weeklyPercent(limit: settings.weeklyLimitUSD)
+            return usage.weeklyPercent(limit: settings.weeklyLimitUSD,
+                                       cacheReadWeight: settings.cacheReadWeight)
         }
     }
 }
