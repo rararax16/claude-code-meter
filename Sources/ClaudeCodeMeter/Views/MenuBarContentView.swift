@@ -40,17 +40,19 @@ struct MenuBarContentView: View {
     }
 
     private var sessionBlock: some View {
-        let percent = usage.sessionPercent(limit: settings.sessionLimitUSD)
-        let cost = usage.summary.sessionCostUSD
+        let w = settings.cacheReadWeight
+        let percent = usage.sessionPercent(limit: settings.sessionLimitUSD, cacheReadWeight: w)
+        let cost = usage.summary.sessionPlanCostUSD(cacheReadWeight: w)
         let limit = settings.sessionLimitUSD
+        let active = usage.summary.sessionStartAt != nil
         return VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Text("現在のセッション (過去5時間)")
+                Text("現在のセッション")
                     .font(.subheadline.weight(.semibold))
                 Spacer()
-                Text(String(format: "%.0f%%", percent))
+                Text(active ? String(format: "%.0f%%", percent) : "—")
                     .font(.subheadline.monospacedDigit())
-                    .foregroundStyle(percentColor(percent))
+                    .foregroundStyle(active ? percentColor(percent) : .secondary)
             }
             ProgressView(value: min(percent / 100, 1.0))
                 .tint(percentColor(percent))
@@ -59,22 +61,36 @@ struct MenuBarContentView: View {
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(.secondary)
                 Spacer()
-                if let reset = usage.summary.sessionResetAt {
-                    Text("リセット: \(timeString(reset))")
+                if let start = usage.summary.sessionStartAt,
+                   let reset = usage.summary.sessionResetAt {
+                    Text("\(timeString(start))〜\(timeString(reset))")
                         .font(.caption.monospacedDigit())
                         .foregroundStyle(.secondary)
+                } else {
+                    Text("アクティブなブロックなし")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
+            }
+            if settings.cacheReadWeight < 1 {
+                Text(String(format: "API 換算では $%.2f (cache read $%.2f を %.0f%% で計上)",
+                            usage.summary.sessionAPICostUSD,
+                            usage.summary.sessionCacheReadCostUSD,
+                            settings.cacheReadWeight * 100))
+                    .font(.caption2.monospacedDigit())
+                    .foregroundStyle(.tertiary)
             }
         }
     }
 
     private var weeklyBlock: some View {
-        let percent = usage.weeklyPercent(limit: settings.weeklyLimitUSD)
-        let cost = usage.summary.weeklyCostUSD
+        let w = settings.cacheReadWeight
+        let percent = usage.weeklyPercent(limit: settings.weeklyLimitUSD, cacheReadWeight: w)
+        let cost = usage.summary.weeklyPlanCostUSD(cacheReadWeight: w)
         let limit = settings.weeklyLimitUSD
         return VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Text("週間 (過去7日)")
+                Text("週間")
                     .font(.subheadline.weight(.semibold))
                 Spacer()
                 Text(String(format: "%.0f%%", percent))
@@ -91,6 +107,11 @@ struct MenuBarContentView: View {
                 Text("プラン: \(settings.plan.displayName)")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+            }
+            if let reset = usage.summary.weeklyResetAt {
+                Text("リセット: \(dateTimeString(reset))")
+                    .font(.caption2.monospacedDigit())
+                    .foregroundStyle(.tertiary)
             }
         }
     }
@@ -127,6 +148,13 @@ struct MenuBarContentView: View {
         guard date > .distantPast else { return "—" }
         let f = DateFormatter()
         f.dateFormat = "HH:mm"
+        return f.string(from: date)
+    }
+
+    private func dateTimeString(_ date: Date) -> String {
+        let f = DateFormatter()
+        f.dateFormat = "M/d(E) HH:mm"
+        f.locale = Locale(identifier: "ja_JP")
         return f.string(from: date)
     }
 }
